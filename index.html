@@ -9,6 +9,25 @@
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="TemplateData/unityloader41.js"></script>
 
+    <!-- HARD MUTE UNITY AUDIO -->
+    <script>
+        (function() {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+
+            const original = AudioContext.prototype.resume;
+
+            AudioContext.prototype.resume = function() {
+                const ctx = this;
+                const gain = ctx.createGain();
+                gain.gain.value = 0; // FULL MUTE
+                gain.connect(ctx.destination);
+                ctx.destination = gain;
+                return original.apply(ctx, arguments);
+            };
+        })();
+    </script>
+
     <script>
         var gameInstance = UnityLoader.instantiate(
             "gameContainer",
@@ -54,18 +73,7 @@
             display: inline-block;
         }
 
-        #cursor {
-            display: inline-block;
-            width: 8px;
-            background: #fff;
-            margin-left: 4px;
-            animation: blink 1s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
+        /* Typed bullets */
         #typed {
             font-size: 14px;
             margin-top: 6px;
@@ -85,7 +93,7 @@
             pointer-events: none;
         }
 
-        /* Watermark */
+        /* Watermark (on lockscreen only) */
         #watermark {
             position: fixed;
             right: 12px;
@@ -106,7 +114,7 @@
     <!-- Terminal lockscreen -->
     <div id="lockscreen">
         <div id="lockscreen-inner">
-            <div id="prompt">Enter Access Code:<div id="cursor">&nbsp;</div></div>
+            <div id="prompt">Enter Access Code:</div>
             <div id="typed"></div>
             <div id="error">ACCESS DENIED</div>
         </div>
@@ -120,7 +128,8 @@
 
         // Capture all keypresses globally
         document.addEventListener("keydown", function(e) {
-            if (!document.getElementById("lockscreen")) return;
+            const lock = document.getElementById("lockscreen");
+            if (!lock) return;
 
             if (e.key === "Enter") {
                 if (buffer === ACCESS_CODE) {
@@ -152,10 +161,7 @@
                 lock.remove();
             }, 400);
 
-            // mute Unity audio
-            try { Howler.mute(true); } catch(e) {}
-
-            // play custom music
+            // Play custom music
             const music = document.getElementById("customMusic");
             music.volume = 0.5;
             music.play().catch(err => console.log("Autoplay blocked:", err));
