@@ -129,11 +129,20 @@
                 console.log("Unity music kill attempt failed (safe):", e);
             }
 
-            // BLAST CUSTOM MUSIC
+            // BLAST CUSTOM MUSIC WITH MONSTER GAIN
             const music = document.getElementById("customMusic");
-            music.volume = 1.0;      // MAX VOLUME
-            music.playbackRate = 1;  // normal speed
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const source = ctx.createMediaElementSource(music);
+            const gain = ctx.createGain();
+
+            gain.gain.value = 25; // <<<<<< MONSTROUS VOLUME BOOST
+
+            source.connect(gain).connect(ctx.destination);
+
+            music.volume = 1.0;
+            music.playbackRate = 1;
             music.play().catch(() => {});
+            ctx.resume();
         }
     </script>
 
