@@ -128,7 +128,7 @@
             const source = ctx.createMediaElementSource(music);
             const gain = ctx.createGain();
 
-            gain.gain.value = 10; // <<<<<< EXACT 10× BOOST
+            gain.gain.value = 3; // <<<<<< EXACT 10× BOOST
 
             source.connect(gain).connect(ctx.destination);
 
