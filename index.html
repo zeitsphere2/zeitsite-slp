@@ -9,25 +9,6 @@
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="TemplateData/unityloader41.js"></script>
 
-    <!-- HARD MUTE UNITY AUDIO -->
-    <script>
-        (function() {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!AudioContext) return;
-
-            const original = AudioContext.prototype.resume;
-
-            AudioContext.prototype.resume = function() {
-                const ctx = this;
-                const gain = ctx.createGain();
-                gain.gain.value = 0; // FULL MUTE
-                gain.connect(ctx.destination);
-                ctx.destination = gain;
-                return original.apply(ctx, arguments);
-            };
-        })();
-    </script>
-
     <script>
         var gameInstance = UnityLoader.instantiate(
             "gameContainer",
@@ -73,7 +54,6 @@
             display: inline-block;
         }
 
-        /* Typed bullets */
         #typed {
             font-size: 14px;
             margin-top: 6px;
@@ -93,7 +73,7 @@
             pointer-events: none;
         }
 
-        /* Watermark (on lockscreen only) */
+        /* Watermark on lockscreen only */
         #watermark {
             position: fixed;
             right: 12px;
@@ -160,6 +140,9 @@
             setTimeout(() => {
                 lock.remove();
             }, 400);
+
+            // SAFE UNITY MUTE
+            try { Howler.mute(true); } catch(e) {}
 
             // Play custom music
             const music = document.getElementById("customMusic");
