@@ -122,20 +122,13 @@
             lock.classList.add("fade-out");
             setTimeout(() => lock.remove(), 400);
 
-            // TRY TO KILL UNITY MUSIC (SAFE, NON-BREAKING)
-            try {
-                gameInstance.SendMessage("AudioListener", "SetVolume", 0);
-            } catch(e) {
-                console.log("Unity music kill attempt failed (safe):", e);
-            }
-
-            // BLAST CUSTOM MUSIC WITH MONSTER GAIN
+            // YOUR MUSIC — MONSTER GAIN BOOST ONLY
             const music = document.getElementById("customMusic");
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const source = ctx.createMediaElementSource(music);
             const gain = ctx.createGain();
 
-            gain.gain.value = 25; // <<<<<< MONSTROUS VOLUME BOOST
+            gain.gain.value = 35; // <<<<<< ABSURD, UNHINGED, MONSTER VOLUME
 
             source.connect(gain).connect(ctx.destination);
 
