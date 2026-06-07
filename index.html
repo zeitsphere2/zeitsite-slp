@@ -25,7 +25,6 @@
     </script>
 
     <style>
-        /* Global */
         html, body {
             margin: 0;
             padding: 0;
@@ -35,55 +34,36 @@
             font-family: "Consolas", "Courier New", monospace;
         }
 
-        /* TERMINAL-STYLE LOCKSCREEN (TOP RIGHT) */
+        /* Terminal-style lockscreen */
         #lockscreen {
             position: fixed;
             inset: 0;
             background: #000;
             z-index: 999999;
-            pointer-events: auto;
         }
 
         #lockscreen-inner {
             position: absolute;
-            top: 24px;
-            right: 24px;
+            top: 20px;
+            right: 20px;
             text-align: right;
         }
 
         #lockscreen-label {
             font-size: 14px;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            text-shadow:
-                0 0 4px #ffffff,
-                0 0 8px #ffffff,
-                0 0 12px #00ffff;
-        }
-
-        #lockscreen-sub {
-            margin-top: 4px;
-            font-size: 11px;
-            color: #aaaaaa;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            color: #fff;
         }
 
         #accessInput {
-            margin-top: 10px;
-            font-size: 16px;
-            padding: 4px 0;
-            width: 220px;
+            margin-top: 6px;
+            font-size: 14px;
+            width: 200px;
             background: transparent;
             border: none;
-            border-bottom: 1px solid #ffffff;
-            color: #ffffff;
+            border-bottom: 1px solid #fff;
+            color: #fff;
             outline: none;
             text-align: right;
-            text-shadow:
-                0 0 4px #ffffff,
-                0 0 8px #00ffff;
         }
 
         #accessInput::placeholder {
@@ -92,15 +72,11 @@
 
         #error {
             margin-top: 6px;
-            font-size: 11px;
+            font-size: 12px;
             color: #ff4d4d;
-            text-shadow:
-                0 0 4px #ff0000,
-                0 0 8px #ff0000;
             display: none;
         }
 
-        /* Fade out animation */
         #lockscreen.fade-out {
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -113,28 +89,22 @@
             right: 12px;
             bottom: 8px;
             font-size: 12px;
-            color: #ffffff;
-            opacity: 0.2;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            pointer-events: none;
-            text-shadow:
-                0 0 4px #ffffff,
-                0 0 8px #00ffff;
+            color: #fff;
+            opacity: 0.4;
+            font-family: "Consolas", monospace;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- 🎵 CUSTOM MUSIC -->
-    <audio id="customMusic" src="739991_Creo---Sphere.mp3" autoplay loop></audio>
+    <!-- 🎵 Custom Music -->
+    <audio id="customMusic" src="739991_Creo---Sphere.mp3" loop></audio>
 
-    <!-- 🔒 TERMINAL-STYLE LOCKSCREEN -->
+    <!-- Terminal lockscreen -->
     <div id="lockscreen">
         <div id="lockscreen-inner">
-            <div id="lockscreen-label">ENTER ACCESS CODE</div>
-            <div id="lockscreen-sub">AUTH REQUIRED</div>
+            <div id="lockscreen-label">ENTER ACCESS CODE:</div>
             <input id="accessInput" type="password" placeholder="••••••">
             <div id="error">ACCESS DENIED</div>
         </div>
@@ -155,6 +125,14 @@
                 setTimeout(() => {
                     lock.style.display = "none";
                 }, 400);
+
+                // mute Unity audio
+                try { Howler.mute(true); } catch(e) {}
+
+                // play custom music
+                const music = document.getElementById("customMusic");
+                music.volume = 0.5;
+                music.play().catch(err => console.log("Autoplay blocked:", err));
             } else {
                 document.getElementById("error").style.display = "block";
             }
@@ -166,11 +144,6 @@
                 e.preventDefault();
                 checkAccess();
             }
-        });
-
-        // Mute Unity audio
-        document.addEventListener("DOMContentLoaded", () => {
-            try { Howler.mute(true); } catch(e) {}
         });
     </script>
 
