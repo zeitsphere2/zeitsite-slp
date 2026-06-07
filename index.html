@@ -144,6 +144,9 @@
 
 <body>
 
+    <!-- 🎵 CUSTOM MUSIC -->
+    <audio id="customMusic" src="739991_Creo---Sphere.mp3" autoplay loop></audio>
+
     <!-- 🔒 NEON LOCKSCREEN -->
     <div id="lockscreen">
         <h2>ACCESS REQUIRED</h2>
@@ -179,6 +182,11 @@
                 e.preventDefault();
                 checkAccess();
             }
+        });
+
+        // Mute Unity's built-in audio (Slope uses Howler)
+        document.addEventListener("DOMContentLoaded", () => {
+            try { Howler.mute(true); } catch(e) {}
         });
     </script>
 
