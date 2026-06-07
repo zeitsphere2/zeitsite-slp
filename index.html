@@ -27,7 +27,6 @@
             font-family: Consolas, monospace;
         }
 
-        /* LOCKSCREEN */
         #lockscreen {
             position: fixed;
             inset: 0;
@@ -64,7 +63,6 @@
             pointer-events: none;
         }
 
-        /* WATERMARK */
         #watermark {
             position: fixed;
             right: 12px;
@@ -77,10 +75,8 @@
 
 <body>
 
-    <!-- MUSIC -->
     <audio id="customMusic" src="739991_Creo---Sphere.mp3" loop></audio>
 
-    <!-- LOCKSCREEN -->
     <div id="lockscreen">
         <div id="lockscreen-inner">
             <div id="prompt">Enter Access Code:</div>
@@ -126,14 +122,14 @@
             lock.classList.add("fade-out");
             setTimeout(() => lock.remove(), 400);
 
-            // Play music
+            try { Howler.mute(true); } catch(e) {}
+
             const music = document.getElementById("customMusic");
             music.volume = 0.5;
             music.play().catch(() => {});
         }
     </script>
 
-    <!-- UNITY GAME -->
     <div class="webgl-content">
         <div id="gameContainer" style="width:100%;height:100%;"></div>
     </div>
