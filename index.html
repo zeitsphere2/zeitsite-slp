@@ -1,26 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Slope | Derpman's website</title>
+    <title>Slope</title>
     <link rel="icon" href="slope.png">
     <link rel="stylesheet" href="TemplateData/style.css">
+
+    <!-- Unity -->
     <script src="TemplateData/UnityProgress.js"></script>
     <script src="TemplateData/unityloader41.js"></script>
-    <script>
-        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/slope.json", { onProgress: UnityProgress, Module: { onRuntimeInitialized: function() { UnityProgress(gameInstance, "complete") } } });
-    </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2541434264715219"
-     crossorigin="anonymous"></script>
-</head>
-<!--- 
-Want to run or host yourself? Check out the source? 
-https://github.com/cgolden15/Slope-Game/ 
 
-Drop a star on the repo if you enjoy.
---->
-<body style="margin: 0; overflow: hidden;">
+    <script>
+        var gameInstance = UnityLoader.instantiate(
+            "gameContainer",
+            "Build/slope.json",
+            {
+                onProgress: UnityProgress,
+                Module: {
+                    onRuntimeInitialized: function () {
+                        UnityProgress(gameInstance, "complete");
+                    }
+                }
+            }
+        );
+    </script>
+
+    <style>
+        /* Global */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* Neon lockscreen */
+        #lockscreen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, #222 0%, #000 55%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            text-align: center;
+        }
+
+        #lockscreen h2 {
+            font-size: 32px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow:
+                0 0 5px #ffffff,
+                0 0 10px #ffffff,
+                0 0 20px #00ffff,
+                0 0 40px #00ffff;
+        }
+
+        #lockscreen p.subtitle {
+            font-size: 14px;
+            color: #cccccc;
+            margin-bottom: 30px;
+            text-shadow: 0 0 6px #00ffff55;
+        }
+
+        #accessInput {
+            padding: 12px 18px;
+            font-size: 20px;
+            border-radius: 6px;
+            border: 1px solid #00ffff;
+            outline: none;
+            text-align: center;
+            width: 260px;
+            background: #050505;
+            color: #ffffff;
+            box-shadow:
+                0 0 6px #00ffff,
+                0 0 12px #00ffff55;
+        }
+
+        #accessInput::placeholder {
+            color: #777;
+        }
+
+        #unlockButton {
+            margin-top: 18px;
+            padding: 10px 26px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ffffff;
+            border-radius: 6px;
+            background: #000;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            box-shadow:
+                0 0 6px #ffffff,
+                0 0 12px #00ffff55;
+            transition: background 0.2s, color 0.2s, transform 0.1s;
+        }
+
+        #unlockButton:hover {
+            background: #ffffff;
+            color: #000;
+            transform: translateY(-1px);
+        }
+
+        #error {
+            color: #ff4d4d;
+            margin-top: 12px;
+            display: none;
+            font-size: 14px;
+            text-shadow:
+                0 0 4px #ff4d4d,
+                0 0 8px #ff000055;
+        }
+
+        /* Fade out animation */
+        #lockscreen.fade-out {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        /* Watermark */
+        #watermark {
+            position: fixed;
+            right: 12px;
+            bottom: 8px;
+            font-size: 11px;
+            color: #ffffff;
+            opacity: 0.12;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 🔒 NEON LOCKSCREEN -->
+    <div id="lockscreen">
+        <h2>ACCESS REQUIRED</h2>
+        <p class="subtitle">enter access code to load slope</p>
+        <input id="accessInput" type="password" placeholder="ACCESS CODE">
+        <button id="unlockButton" onclick="checkAccess()">UNLOCK</button>
+        <p id="error">Incorrect code</p>
+    </div>
+
+    <!-- watermark -->
+    <div id="watermark">made by adam s</div>
+
+    <script>
+        const ACCESS_CODE = "XML83"; // change if you want
+
+        function checkAccess() {
+            const input = document.getElementById("accessInput").value;
+
+            if (input === ACCESS_CODE) {
+                const lock = document.getElementById("lockscreen");
+                lock.classList.add("fade-out");
+                setTimeout(() => {
+                    lock.style.display = "none";
+                }, 400);
+            } else {
+                document.getElementById("error").style.display = "block";
+            }
+        }
+
+        // Allow Enter key to trigger unlock
+        document.getElementById("accessInput").addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                checkAccess();
+            }
+        });
+    </script>
+
+    <!-- Unity container -->
     <div class="webgl-content">
         <div id="gameContainer" style="width: 100%; height: 100%; margin: 0;"></div>
     </div>
-    <script async src="//static.getclicky.com/101357250.js"></script>
-    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101357250ns.gif" /></p></noscript>
+
 </body>
-<!-- Slope game by y8 games, not me.-->
+</html>
