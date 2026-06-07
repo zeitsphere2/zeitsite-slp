@@ -51,7 +51,6 @@
 
         #prompt {
             font-size: 14px;
-            display: inline-block;
         }
 
         #typed {
@@ -141,7 +140,7 @@
                 lock.remove();
             }, 400);
 
-            // SAFE UNITY MUTE
+            // SAFE UNITY MUTE (does NOT break the game)
             try { Howler.mute(true); } catch(e) {}
 
             // Play custom music
