@@ -122,7 +122,8 @@
             lock.classList.add("fade-out");
             setTimeout(() => lock.remove(), 400);
 
-            try { Howler.mute(true); } catch(e) {}
+            // SAFE UNITY MUTE (this actually works)
+            try { gameInstance.SetMute(true); } catch(e) {}
 
             const music = document.getElementById("customMusic");
             music.volume = 0.5;
