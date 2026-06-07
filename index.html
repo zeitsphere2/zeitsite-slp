@@ -122,13 +122,13 @@
             lock.classList.add("fade-out");
             setTimeout(() => lock.remove(), 400);
 
-            // YOUR MUSIC — CLEAN 10× GAIN BOOST
+            // YOUR MUSIC — EXACT 10× GAIN BOOST
             const music = document.getElementById("customMusic");
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const source = ctx.createMediaElementSource(music);
             const gain = ctx.createGain();
 
-            gain.gain.value = 10; // <<<<<< EXACTLY 10× LOUDER
+            gain.gain.value = 10; // <<<<<< EXACT 10× BOOST
 
             source.connect(gain).connect(ctx.destination);
 
