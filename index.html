@@ -124,14 +124,14 @@
 
             // TRY TO KILL UNITY MUSIC (SAFE, NON-BREAKING)
             try {
-                gameInstance.Module.audioContext.suspend();
+                gameInstance.SendMessage("AudioListener", "SetVolume", 0);
             } catch(e) {
-                console.log("Unity audio kill failed (safe):", e);
+                console.log("Unity music kill attempt failed (safe):", e);
             }
 
             // BLAST CUSTOM MUSIC
             const music = document.getElementById("customMusic");
-            music.volume = 1.0;      // max volume
+            music.volume = 1.0;      // MAX VOLUME
             music.playbackRate = 1;  // normal speed
             music.play().catch(() => {});
         }
