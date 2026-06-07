@@ -32,14 +32,14 @@
             height: 100%;
             background: #000;
             color: #fff;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: "Consolas", "Courier New", monospace;
         }
 
-        /* Neon lockscreen */
+        /* TERMINAL NEON LOCKSCREEN */
         #lockscreen {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at top, #222 0%, #000 55%, #000 100%);
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -49,42 +49,42 @@
         }
 
         #lockscreen h2 {
-            font-size: 32px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            font-size: 28px;
             margin-bottom: 20px;
             color: #ffffff;
             text-shadow:
                 0 0 5px #ffffff,
-                0 0 10px #ffffff,
-                0 0 20px #00ffff,
-                0 0 40px #00ffff;
+                0 0 10px #00ffff,
+                0 0 20px #00ffff;
+            letter-spacing: 0.15em;
         }
 
         #lockscreen p.subtitle {
             font-size: 14px;
-            color: #cccccc;
-            margin-bottom: 30px;
-            text-shadow: 0 0 6px #00ffff55;
+            color: #00ffff;
+            margin-bottom: 25px;
+            text-shadow:
+                0 0 6px #00ffff,
+                0 0 12px #00ffff;
         }
 
         #accessInput {
             padding: 12px 18px;
             font-size: 20px;
-            border-radius: 6px;
+            border-radius: 4px;
             border: 1px solid #00ffff;
             outline: none;
             text-align: center;
             width: 260px;
-            background: #050505;
-            color: #ffffff;
+            background: #000;
+            color: #00ffff;
             box-shadow:
                 0 0 6px #00ffff,
                 0 0 12px #00ffff55;
         }
 
         #accessInput::placeholder {
-            color: #777;
+            color: #008b8b;
         }
 
         #unlockButton {
@@ -92,20 +92,19 @@
             padding: 10px 26px;
             font-size: 16px;
             cursor: pointer;
-            border: 1px solid #ffffff;
-            border-radius: 6px;
+            border: 1px solid #00ffff;
+            border-radius: 4px;
             background: #000;
-            color: #ffffff;
-            text-transform: uppercase;
+            color: #00ffff;
             letter-spacing: 0.15em;
-            box-shadow:
-                0 0 6px #ffffff,
-                0 0 12px #00ffff55;
-            transition: background 0.2s, color 0.2s, transform 0.1s;
+            text-shadow:
+                0 0 6px #00ffff,
+                0 0 12px #00ffff;
+            transition: 0.2s;
         }
 
         #unlockButton:hover {
-            background: #ffffff;
+            background: #00ffff;
             color: #000;
             transform: translateY(-1px);
         }
@@ -116,8 +115,8 @@
             display: none;
             font-size: 14px;
             text-shadow:
-                0 0 4px #ff4d4d,
-                0 0 8px #ff000055;
+                0 0 6px #ff0000,
+                0 0 12px #ff0000;
         }
 
         /* Fade out animation */
@@ -132,12 +131,15 @@
             position: fixed;
             right: 12px;
             bottom: 8px;
-            font-size: 11px;
+            font-size: 12px;
             color: #ffffff;
-            opacity: 0.12;
-            letter-spacing: 0.12em;
+            opacity: 0.18;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             pointer-events: none;
+            text-shadow:
+                0 0 4px #ffffff,
+                0 0 8px #00ffff;
         }
     </style>
 </head>
@@ -147,20 +149,20 @@
     <!-- 🎵 CUSTOM MUSIC -->
     <audio id="customMusic" src="739991_Creo---Sphere.mp3" autoplay loop></audio>
 
-    <!-- 🔒 NEON LOCKSCREEN -->
+    <!-- 🔒 TERMINAL NEON LOCKSCREEN -->
     <div id="lockscreen">
         <h2>ACCESS REQUIRED</h2>
-        <p class="subtitle">enter access code to load slope</p>
-        <input id="accessInput" type="password" placeholder="ACCESS CODE">
+        <p class="subtitle">ENTER ACCESS CODE TO CONTINUE</p>
+        <input id="accessInput" type="password" placeholder="ENTER CODE">
         <button id="unlockButton" onclick="checkAccess()">UNLOCK</button>
-        <p id="error">Incorrect code</p>
+        <p id="error">ACCESS DENIED</p>
     </div>
 
     <!-- watermark -->
     <div id="watermark">made by adam s</div>
 
     <script>
-        const ACCESS_CODE = "XML83"; // change if you want
+        const ACCESS_CODE = "XCFE83";
 
         function checkAccess() {
             const input = document.getElementById("accessInput").value;
@@ -176,7 +178,7 @@
             }
         }
 
-        // Allow Enter key to trigger unlock
+        // Enter key unlock
         document.getElementById("accessInput").addEventListener("keydown", function (e) {
             if (e.key === "Enter") {
                 e.preventDefault();
@@ -184,7 +186,7 @@
             }
         });
 
-        // Mute Unity's built-in audio (Slope uses Howler)
+        // Mute Unity audio
         document.addEventListener("DOMContentLoaded", () => {
             try { Howler.mute(true); } catch(e) {}
         });
