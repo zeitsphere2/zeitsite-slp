@@ -45,25 +45,39 @@
         #lockscreen-inner {
             position: absolute;
             top: 20px;
-            right: 20px;
-            text-align: right;
+            left: 20px;
+            text-align: left;
         }
 
         #lockscreen-label {
             font-size: 14px;
             color: #fff;
+            display: inline-block;
+        }
+
+        /* Blinking cursor */
+        #cursor {
+            display: inline-block;
+            width: 8px;
+            background: #fff;
+            margin-left: 4px;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         #accessInput {
             margin-top: 6px;
             font-size: 14px;
-            width: 200px;
+            width: 220px;
             background: transparent;
             border: none;
             border-bottom: 1px solid #fff;
             color: #fff;
             outline: none;
-            text-align: right;
+            text-align: left;
         }
 
         #accessInput::placeholder {
@@ -104,7 +118,8 @@
     <!-- Terminal lockscreen -->
     <div id="lockscreen">
         <div id="lockscreen-inner">
-            <div id="lockscreen-label">ENTER ACCESS CODE:</div>
+            <div id="lockscreen-label">Enter Access Code:<div id="cursor">&nbsp;</div></div>
+            <br>
             <input id="accessInput" type="password" placeholder="••••••">
             <div id="error">ACCESS DENIED</div>
         </div>
